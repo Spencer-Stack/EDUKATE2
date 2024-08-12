@@ -6,7 +6,8 @@ class LogicController {
         this.blocks = {}; // logic blocks, indexed by id (unordered, as opposed to the blockSet)
         this.visual_controller = visual_controller;
         // main block set is the block set that contains all blocks in the program
-        this.block_sets = this.freshBlockSets();
+        this.block_sets = this.freshBlockSets(true);
+        this.simplistic_block_sets = this.freshBlockSets(false); // for exporting as strings
 
         this.all_block_set_hosts = [];
         this.run_main_code_name = 'start_virtual';
@@ -83,16 +84,24 @@ class LogicController {
         return [null, null];
     }
 
-    freshBlockSets(){
-        return {
-            'start_virtual': new BlockSet(),
-            'back_button': new BlockSet()
-        };
+    freshBlockSets(block_set){
+        if (block_set){
+            return {
+                'start_virtual': new BlockSet(),
+                'back_button': new BlockSet()
+            };
+        } else{
+            return {
+                'start_virtual': {'blocks': [], 'loop_counts': []},
+                'back_button': {'blocks': [], 'loop_counts': []},
+            };
+        }
     }
 
     reset(){
         this.blocks = {};
-        this.block_sets = this.freshBlockSets();
+        this.block_sets = this.freshBlockSets(true);
+        this.simplistic_block_sets = this.freshBlockSets(false); // for exporting as strings
         this.all_block_set_hosts = [];
     }
 
@@ -166,6 +175,7 @@ class LogicController {
 
         while (next != null){
             block = blocks[next];
+            this.simplistic_block_sets[this.cur_start_name]['blocks'].push(block);
             let block_snap = snaps[block.id];
             // first check to see if the block set needs to change
             cur_block_set_host = this.getCurrentBlockSet(block_sets, block);
@@ -179,6 +189,9 @@ class LogicController {
                 cur_block_set_host.addBlock(logic_block);
             } else if (logic_block.block_type.name == "start_loop"){
                 cur_block_set_host.setLoopCount(logic_block.visualBlock.getLoopCount());
+
+                this.simplistic_block_sets[this.cur_start_name]['loop_counts'].push(logic_block.visualBlock.getLoopCount());
+
                 let level_above = block_sets[block_sets.length - 2];
                 level_above.addBlock(cur_block_set_host) // add the cur host
             }
@@ -227,7 +240,67 @@ class LogicController {
                 return res;
             }
         }
-        console.log(this.block_sets);
         return {"res": true};
     }
+
+    // this will export as a string to send to the arduino
+    exportAsChars(){
+        // specs:
+        // - each event section is seperated by |
+        // - each block has a number that represents it
+        // - for a loop start block, the next number after that is its loop count, not the next block!
+        
+        // decompose each of the block sets into the direct blocks
+        this.simplistic_block_sets
+
+        // write here what the order being sent is in terms of events
+        // - start_virtual
+        // - back_button
+
+        let send_str = "<";
+
+        for (let key of Object.keys(this.simplistic_block_sets)){
+            let blocks = this.simplistic_block_sets[key]['blocks'];
+            for (let block of blocks){
+                let str = this.convertBlockToIdStr(block);
+                send_str += str;
+                if (block.block_type.name == 'start_loop'){
+                    // append both the index and then its count
+                    let loop_count = this.simplistic_block_sets[key]['loop_counts'].shift();
+                    send_str += "" + loop_count;
+                }
+            }
+            send_str += '|';
+        }
+
+        return send_str + ">";
+    }
+
+    convertBlockToIdStr(block) {
+        let block_names_to_id = [
+            'start_virtual',
+            'start_doll',
+            'stop',
+            'start_loop',
+            'end_loop',
+            'move_right',
+            'move_up',
+            'move_left',
+            'move_down',
+            'something_close_right',
+            'something_close_left',
+            'back_button',
+            'face_touch',
+        ];
+    
+        let type = block.block_type.name;
+        let index = block_names_to_id.indexOf(type);
+    
+        // Convert index to letter if greater than 9
+        if (index >= 10) {
+            return String.fromCharCode('A'.charCodeAt(0) + (index - 10));
+        }
+    
+        return "" + index;
+    }    
 }

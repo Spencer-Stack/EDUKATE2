@@ -746,6 +746,15 @@ class VisualController {
         });
     }
 
+    parseCode(){
+        // Call the logic controller's run or setup function
+        this.logic_controller.reset();
+        this.virtual_controller.reset();
+        this.setConsole("");
+        let parse_result = this.logic_controller.parseVisual(this.blocks, this.snapped_connections);
+        return parse_result;
+    }
+
     // Initialize action buttons
     initializeActionButtons() {
         let _this = this;
@@ -764,16 +773,12 @@ class VisualController {
             if (_this.continueSequence){
                 return;
             }
-            // Call the logic controller's run or setup function
-            _this.logic_controller.reset();
-            _this.virtual_controller.reset();
-            _this.setConsole("");
-            let parse_result = _this.logic_controller.parseVisual(_this.blocks, _this.snapped_connections);
             let controllers = {
-                'visual_controller': _this,
-                'virtual_controller': _this.virtual_controller,
-                'logic_controller': _this.logic_controller
+                'visual_controller': this,
+                'virtual_controller': this.virtual_controller,
+                'logic_controller': this.logic_controller
             };
+            let parse_result = _this.parseCode();
             if (parse_result["res"]){
                 _this.logic_controller.execute(controllers);
             } else{
@@ -795,13 +800,6 @@ class VisualController {
             }
             $("#overlay").fadeIn(300);
             _this.account_controller.populateLoadTable();
-        });
-
-        $('#save').on('click', function () {
-            if (_this.continueSequence){
-                return;
-            }
-            $('#saveProgramModal').modal('show'); // Hide the modal after saving
         });
     }
 

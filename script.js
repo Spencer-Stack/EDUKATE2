@@ -17,7 +17,7 @@ $(document).ready(function () {
                 console.log(err.message);
             }
 
-            console.log(ports);
+            console.log('polling for ports!', ports);
 
             if (ports.length !== 0) {
                 for (let port of ports) {
@@ -27,7 +27,6 @@ $(document).ready(function () {
                             return;
                         }
 
-                        clearInterval(writeInterval);
                         if (serial_port) {
                             serial_port.close();
                         }
@@ -40,47 +39,37 @@ $(document).ready(function () {
                         serial_port.on('error', function (err) {
                             console.log('Error: ', err.message);
                         });
-
-                        serial_port.on('open', function () {
-                            console.log('Serial Port Opened');
-                            startWriting();
-                        });
                     }
                 }
             }
         });
     }
 
-    function startWriting() {
-        if (writeInterval) {
-            clearInterval(writeInterval);
+    function writeTo() {
+        if (serial_port && serial_port.isOpen) {
+            // Use the exportAsChars method from LogicController
+            let message = logicController.exportAsChars();
+            // message = '<01|B1|>';
+            console.log(message);
+            serial_port.write(message, (err) => {});
         }
-
-        writeInterval = setInterval(() => {
-            if (serial_port && serial_port.isOpen) {
-                // const message = (Math.floor(Math.random() * 30) + 1).toString();
-                const message = "<121>";
-                serial_port.write(message, (err) => {
-                    if (err) {
-                        return console.log('Error on write: ', err.message);
-                    }
-                    console.log(`I sent: ${message}`);
-                });
-            }
-        }, 5000);
-
-        // if (serial_port && serial_port.isOpen) {
-        //     // const message = (Math.floor(Math.random() * 30) + 1).toString();
-        //     const message = "11111111";
-        //     serial_port.write(message, (err) => {});
-        // }
     }
 
+    // Function to list ports and start communication
     function listPorts() {
         listSerialPorts();
-        // setTimeout(listPorts, 500);
+        setTimeout(listPorts, 2000);
     }
 
     // Start port listing
-    setTimeout(listPorts, 2000);
+    listPorts();
+
+    $('#save').on('click', function () {
+        let parse_result = visualController.parseCode();
+        if (parse_result["res"]){
+            writeTo();
+        } else{
+            visualController.showInfoAlert(parse_result['text']);
+        }
+    });
 });
