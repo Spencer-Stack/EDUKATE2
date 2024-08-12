@@ -1,0 +1,24 @@
+This is where all of the blocks you can use live. 
+To interact with these, click and drag them into the workspace below.
+
+This is how you can select different kinds of blocks. Blocks related to starting and stopping are in 
+the Initialise tab, blocks for moving the doll around are in the Movements tab.
+
+This is the workspace. This is where the blocks you drag from above go to. When blocks are in the workspace 
+they can make the doll do something.
+
+This is the run button. When your program is made by dragging and dropping blocks, you can click this 
+button to make the program start. 
+
+Here is the stop button, which allows you to stop the running of the program whenever you want.
+
+The save button will save the current program you have so you can load it in later.
+
+The load button allows you to choose from previously saved programs to load in from.
+
+This box will show the output of your programs, either saying that it ran successfully, was stopped, or a problem occurred.
+
+This is a little arrow that when clicked, will open and close the virtual grid where your virtual doll lives!
+
+Here is the grid for the doll. The doll can move around by using the blocks in the Movements tab. 
+Try to reach the heart to get to the next level!

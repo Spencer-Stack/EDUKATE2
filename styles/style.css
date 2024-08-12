@@ -1,0 +1,520 @@
+:root{
+    --block_size: 100px;
+    --light_pink: #e0c3c5;
+    --dark_pink: #cb7086;
+    --play_speed: 1s;
+    --tile_cols: 4;
+
+    /* stuff for the hamburger */
+    --coal: #3A3A3A;
+    --snow: #ECEFF1;
+    --hamburger_width: 50px;
+    --menu_width: 20%;
+}
+
+table {
+    width: 100% !important;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: var(--light_pink);
+    display: flex;
+    width: 100%;
+}
+
+.header {
+    background-color: var(--light_pink);
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.header-sub {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.tab-selection {
+    display: flex;
+    justify-content: left;
+    background-color: var(--dark_pink);
+}
+
+.action_buttons {
+    margin-left: 20px;
+    display: flex;
+    justify-content: right;
+    align-items: right;
+}
+
+.tab-button {
+    background-color: transparent;
+    color: #fff;
+    padding: 10px 20px;
+    cursor: pointer;
+    border: 1px solid black;
+    text-align: center;
+    transition: background-color 0.3s;
+}
+
+.tab-button:not(:disabled):hover {
+    background-color: #7d545e;
+    border: 1px dashed black;
+}
+
+.tab-button:disabled{
+    cursor: default;
+    background-color: #734752;
+}
+
+.action-button {
+    margin-left: 5px;
+    height: 50px;
+    background-color: var(--dark_pink);
+    color: #fff;
+    padding: 10px 20px 10px 20px;
+    cursor: pointer;
+    border: 1px solid black;
+    box-shadow: 2px 1px 1px black;
+    transition: background-color 0.3s;
+    text-align: center;
+    align-items: center;
+}
+
+.action-button:hover{
+    background-color: #7d545e;
+}
+
+#run:disabled, #stop:disabled{
+    cursor: not-allowed;
+    background-color: var(--dark_pink);
+    user-select: none;
+}
+
+.block-display {
+    display: flex;
+    justify-content: left;
+    background-color: white;
+    gap: 20px;
+    padding: 10px 20px;
+    min-height: var(--block_size);
+}
+
+.block {
+    box-sizing: border-box;
+    position: relative;
+    user-select: none;
+    width: var(--block_size);
+    height: var(--block_size);
+    background-color: var(--dark_pink);
+    color: #fff;
+    cursor: pointer;
+    border: 3px solid black;
+}
+
+.block .block_image {
+    width: 100%;
+    height: 100%;
+}
+
+.with-transition {
+    transition: left 0.2s, top 0.2s;
+}
+
+.currently_dragging {
+    z-index: 10;
+}
+
+@keyframes rotate360 {
+    from {
+        transform: rotate3d(0, 1, 0, 0deg);
+    }
+    to {
+        transform: rotate3d(0, 1, 0, 360deg);
+    }
+}
+
+.rotating {
+    animation: rotate360 var(--play_speed) linear forwards;
+}
+
+/* TODO fix when expanding, thes block moving back is a bit weird */
+.workspace {
+    position: relative;
+    margin: 10px 20px;
+    height: 55vh;
+    background-color: #fff;
+    border-top: 1px solid #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: scroll;
+    background: linear-gradient(217deg, var(--dark_pink), rgba(255,0,0,0) 70.71%),
+                linear-gradient(127deg, rgb(208, 18, 208), rgba(0,255,0,0) 70.71%),
+                linear-gradient(336deg, rgba(0,0,255,.8), rgba(0,0,255,0) 70.71%);
+}
+
+#fake_invisible{
+    height: 1px;
+    width: 100%;
+    background-color: transparent;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+
+#work_area {
+    flex: 2;
+}
+
+#virtual {
+    transition: flex 0.3s;
+    flex: 0;
+    background-color: white;
+    margin: 20px;
+    margin-bottom: 20px;
+}
+
+.expanded {
+    flex: 1 !important;
+}
+
+.virtual_toggle {
+    position: absolute;
+    top: 50%;
+    right: 2px;
+    transform: translateY( -50%);
+    width: 40px;
+    height: 40px;
+    background-color: var(--dark_pink);
+    border-radius: 50%;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s;
+}
+
+.arrow {
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 15px solid white;
+    transform: rotate(90deg);
+    transition: transform 0.3s;
+}
+
+.arrow.expanded {
+    transform: rotate(270deg);
+}
+
+.tile_img {
+    width: 100%;
+    height: 100%;
+}
+
+#console {
+    position: relative;
+    margin: 20px;
+    height: 10vh;
+    background-color: #fff;
+    border-top: 1px solid #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: scroll;
+    color: var(--dark_pink);
+    font-size: 20px;
+}
+
+#grid_house{
+    width: 90%;
+    margin: 10px auto;  
+    background-color: white;
+    transition: all 0.1s;
+    border: 5px solid var(--dark_pink);
+    display: grid;
+    grid-template-columns: repeat(var(--tile_cols), 1fr);
+}
+
+/* Style the individual grid cells */
+#grid_house > div {
+    background-color: white; /* Cell background color */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #000; /* Optional cell border */
+    aspect-ratio: 1; /* Make each cell a square */
+  }
+
+#virtual:not(.expanded) > *{
+    display: none;
+}
+
+.selector {
+    visibility: hidden;
+    z-index: 3;
+    background-color: transparent;
+    position: absolute;
+    transition: all 2s ease-in-out;
+}
+
+#horizontal_selector {
+    z-index: 11;
+    width: 100%;
+    height: 20%;
+    left: 0;
+    top: 0;
+    border-top: 3px solid black;
+    border-bottom: 3px solid black;
+}
+
+#vertical_selector {
+    z-index: 11;
+    width: 20%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    border-left: 3px solid black;
+    border-right: 3px solid black;
+}
+
+#overlay {
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.6); /* Grey overlay */
+    z-index: 10; /* Below the highlighted element */
+}
+
+.text-bubble {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    display: none; /* Initially hidden */
+    z-index: 12; /* Ensure it's above other elements */
+    max-width: 30%;
+}
+
+
+.confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #f00; /* Red, but use multiple colors */
+    animation: fall linear;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+
+.hamburger-menu {
+    position: relative;
+    left: 10px;
+    top: 10px;
+    z-index: 1000;
+}
+
+.menu-icon {
+    cursor: pointer;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 30px;
+    background: transparent;
+    border-radius: 5px;
+}
+
+.menu-icon div {
+    background-color: black;
+    height: 4px;
+    width: 30px;
+    border-radius: 2px;
+}
+
+.menu {
+    display: none;
+    background-color: white;
+    position: absolute;
+    top: 55px;
+    right: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.menu ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu ul li {
+    border-bottom: 1px solid #ddd;
+}
+
+.menu ul li a {
+    display: block;
+    padding: 15px;
+    text-decoration: none;
+    color: black;
+}
+
+.menu ul li a:hover {
+    background-color: #f5f5f5;
+}
+
+
+.card {
+    margin-bottom: 20px;
+    background-color: #f9bad1;
+}
+
+.card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+.card-body {
+    align-items: center;
+}
+
+.card-text {
+    font-size: 0.8em; /* smaller size */
+    color: black; /* grey color */
+    font-style: italic; /* italic font style */
+}
+
+.load-btn, .delete-btn {
+    cursor: pointer;
+}
+
+.load-btn:hover, .delete-btn:hover{
+    transform: scale(1.03);
+}
+
+.load-btn {
+    background-color: white;
+}
+
+.delete-btn {
+    background-color: black;
+    color: white;
+}
+
+.delete-btn:hover{
+    color: white !important;
+}
+
+#programContainer {
+    z-index: 12;
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%);
+    width: 60%;
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    min-height: 20%;
+    display: flex; /* Enable Flexbox */
+    flex-direction: column; /* Stack children vertically */
+}
+
+#programGrid {
+    flex-grow: 1; /* Take up all available space */
+}
+
+#programContainer .container-footer {
+    text-align: right; /* Align the button to the right */
+    margin-top: auto;
+}
+
+#no_cards{
+    margin: auto;
+    margin-top: 10px;
+    display: none;
+    text-align: center;
+    font-size: 20px;
+    color: black;
+}
+
+
+/* loop notches */
+
+.slider {
+    width: 100%;
+    height: 20px;
+    background-color: var(--light_pink);
+    position: absolute;
+    bottom: calc(100% + 3px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 5px;
+}
+
+.notch {
+    height: 10px;
+    width: 2px;
+    background-color: black;
+}
+
+.loop_arrow {
+    width: 0; 
+    height: 0; 
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid black;
+    position: absolute;
+    top: 0px; /* adjust for proper positioning */
+    left: calc(50% - 10px); /* this should change dynamically based on the selected notch */
+}
+
+
+.navigation {
+    margin: auto;
+    width: 40%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.level_arrow {
+    cursor: pointer; /* Change cursor to indicate clickable area */
+}
+
+.level_arrow img {
+    width: 30px; /* Adjust based on your image size and design preference */
+    height: 30px;
+}
+
+.left-arrow img {
+    transform: rotate(180deg) !important;
+}
+
+#level_text{
+    transform: translate(0, 30%);
+}

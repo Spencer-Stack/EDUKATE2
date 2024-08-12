@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kate-E</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- DataTable -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css"/>
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/hamburger_styles.css">
+</head>
+<body>
+    <div id="textBubble" class="text-bubble">
+        <p id="textBubbleContent"></p>
+    </div>
+    <div id="overlay"></div>
+    <div class="selector" id="horizontal_selector"></div>
+    <div class="selector" id="vertical_selector"></div>
+    <div id="smiley" class="smiley"></div>
+    <button id="virtual_toggle" class="virtual_toggle">
+        <div id="arrow" class="arrow"></div>
+    </button>
+
+    <nav>
+        <span id='menu-ctn'>
+            <li class='menu-bars'></li>
+        </span>
+    </nav>
+  
+    <div id='menu-cnt'>
+        <li class='menu-item'>
+            <a id="options_button" href='' class='item-link'>Options</a>
+        </li><hr/>
+        <!-- <li class='menu-item'>Social links<br/>
+            <a href='https://codepen.io/Rahul_V7/' target='_blank' class='soc-link'>CodePen</a><br/>
+            <a href='https://stackoverflow.com/users/9272086/rahul?tab=profile' target='_blank' class='soc-link'>Stack Overflow</a><br/>
+            <a href='https://www.facebook.com/profile.php?id=100013407250899' target='_blank' class='soc-link'>Facebook</a><br/>
+            <a href='https://plus.google.com/u/0/114676294449878662354' target='_blank' class='soc-link'>Google+</a><br/>
+        </li> -->
+    </div>
+  
+    <div id="work_area">
+        <div class="header">
+            <div class="header-sub">
+                <div id="tab-selection" class="tab-selection">
+                    <!-- Add your tab buttons here -->
+                    <button class="tab-button">Initialise</button>
+                    <button class="tab-button">Movements</button>
+                    <button class="tab-button">Control</button>
+                    <button class="tab-button" disabled><i class="fas fa-lock"></i> Virtual</button>
+                    <button class="tab-button" disabled><i class="fas fa-lock"></i> Doll</button>
+                    <button class="tab-button" disabled><i class="fas fa-lock"></i> Sounds</button>
+                </div>
+                <div id="action-buttons" class="action_buttons">
+                    <button class="action-button" id="run">Run</button>
+                    <button class="action-button" disabled id="stop">Stop</button>
+                    <button class="action-button" id="save">Save</button>
+                    <button class="action-button" id="load">Load</button>
+                </div>
+            </div>
+            <div id="block-display" class="block-display">
+                <!-- Initialise  -->
+                <div class="block" data-tab="Initialise" data-placed="false" data-block_type="start_virtual">
+                    <img class="block_image" src="block_images/start_virtual.png" alt="Initialise Virtual" draggable="false">
+                </div>
+                <div class="block" data-tab="Initialise" data-placed="false" data-block_type="start_doll">
+                    <img class="block_image" src="block_images/start_doll.png" alt="Initialise Doll" draggable="false">
+                </div>
+                <div class="block" data-tab="Initialise" data-placed="false" data-block_type="stop">
+                    <img class="block_image" src="block_images/stop.png" alt="End" draggable="false">
+                </div>
+                <div class="block" data-tab="Initialise" data-placed="false" data-block_type="start_loop">
+                    <img class="block_image" src="block_images/start_loop.png" alt="End" draggable="false">
+                </div>
+                <div class="block" data-tab="Initialise" data-placed="false" data-block_type="end_loop">
+                    <img class="block_image" src="block_images/end_loop.png" alt="End" draggable="false">
+                </div>
+
+                <!-- Movements -->
+                <div class="block" data-tab="Movements"  data-placed="false" data-block_type="move_right">
+                    <img class="block_image" src="block_images/move_right.png" alt="Block 4" draggable="false">
+                </div>
+                <div class="block" data-tab="Movements"  data-placed="false" data-block_type="move_up">
+                    <img class="block_image" src="block_images/move_up.png" alt="Block 5" draggable="false">
+                </div>
+                <div class="block" data-tab="Movements"  data-placed="false" data-block_type="move_left">
+                    <img class="block_image" src="block_images/move_left.png" alt="Block 5" draggable="false">
+                </div>
+                <div class="block" data-tab="Movements"  data-placed="false" data-block_type="move_down">
+                    <img class="block_image" src="block_images/move_down.png" alt="Block 5" draggable="false">
+                </div>
+
+                <!-- Control -->
+                <div class="block" data-tab="Control"  data-placed="false" data-block_type="something_close_right">
+                    <img class="block_image" src="block_images/something_close_right.png" draggable="false">
+                </div>
+                <div class="block" data-tab="Control"  data-placed="false" data-block_type="something_close_left">
+                    <img class="block_image" src="block_images/something_close_left.png" draggable="false">
+                </div>
+                <div class="block" data-tab="Control"  data-placed="false" data-block_type="back_button">
+                    <img class="block_image" src="block_images/back_button.png" draggable="false">
+                </div>
+                <div class="block" data-tab="Control"  data-placed="false" data-block_type="face_touch">
+                    <img class="block_image" src="block_images/face_touch.png" draggable="false">
+                </div>
+            </div>
+        </div>
+        <div class="workspace" id="workspace">
+            <!-- The bottom part where blocks can be dragged and dropped -->
+            <div id="fake_invisible"></div>
+        </div>
+        <div id="console">
+            <!-- this is where the console text goes -->
+        </div>
+    </div>
+    <div id="virtual" class="">
+        <div id="grid_house"></div>
+        <div class="navigation">
+            <div class="level_arrow left-arrow">
+                <img src="images/level_arrow.jpeg" alt="Left Arrow">
+            </div>
+            <p id="level_text">Level 1</p>
+            <div class="level_arrow right-arrow">
+                <img src="images/level_arrow.jpeg" alt="Right Arrow">
+            </div>
+        </div>
+        <div id="python_output"></div>
+    </div>
+
+    <div class="container" id="programContainer" style="display: none;">
+        <div id="no_cards">You have no saved programs, create some and save them here!</div>
+        <div class="row" id="programGrid">
+            <!-- Program cards will be loaded here -->
+        </div>
+        <div class="container-footer">
+            <button id="deleteAllBtn" class="btn btn-secondary btn-danger">Delete all</button>
+            <button id="closeBtn" class="btn btn-secondary">Close</button>
+        </div>    
+    </div>
+
+    <!-- Save program Modal -->
+    <div class="modal fade" id="saveProgramModal" tabindex="-1" role="dialog" aria-labelledby="saveProgramModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="saveProgramModalLabel">Save Program</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="programName">Program Name</label>
+                            <input type="text" class="form-control" id="programName" placeholder="Enter program name">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" id="save_program" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Options modal -->
+    <div class="modal fade" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="settingsModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="settingsModalLabel">Settings</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Execution Speed Slider -->
+                    <div class="form-group">
+                        <label for="execution-speed">Execution Speed (ms): <span id="execution-speed-value">1000</span>ms</label>
+                        <input type="range" class="form-control-range" id="execution-speed" min="100" max="2000" value="1000">
+                    </div>
+                    <!-- Other settings options can be added here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+
+    <!-- Jquery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!-- Sweet alert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="Chunk.js"></script>
+    <script src="BlockType.js"></script>
+    <script src="TileType.js"></script>
+    <script src="Block.js"></script>
+    <script src="LogicBlock.js"></script>
+    <script src="BlockSet.js"></script>
+    <script src="Loop.js"></script>
+    <script src="VirtualTile.js"></script>
+    <script src="Level.js"></script>
+    <script src="AccountController.js"></script>
+    <script src="LogicController.js"></script>
+    <script src="VirtualController.js"></script>
+    <script src="VisualController.js"></script>
+    <script src="script.js"></script>
+
+    <script>if (window.module) module = window.module;</script>
+
+</body>
+</html>

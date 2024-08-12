@@ -1,0 +1,26 @@
+{
+  "name": "edukate",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Spencer-Stack/eduKate.git"
+  },
+  "author": "me",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Spencer-Stack/eduKate/issues"
+  },
+  "homepage": "https://github.com/Spencer-Stack/eduKate#readme",
+  "devDependencies": {
+    "electron": "^31.1.0"
+  },
+  "dependencies": {
+    "serialport": "^10.3.0"
+  }
+}
