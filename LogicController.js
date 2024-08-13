@@ -88,12 +88,18 @@ class LogicController {
         if (block_set){
             return {
                 'start_virtual': new BlockSet(),
-                'back_button': new BlockSet()
+                'nose_button': new BlockSet(),
+                'back_button': new BlockSet(),
+                'ultrasonic_left': new BlockSet(),
+                'ultrasonic_right': new BlockSet()
             };
         } else{
             return {
                 'start_virtual': {'blocks': [], 'loop_counts': []},
+                'nose_button': {'blocks': [], 'loop_counts': []},
                 'back_button': {'blocks': [], 'loop_counts': []},
+                'ultrasonic_left': {'blocks': [], 'loop_counts': []},
+                'ultrasonic_right': {'blocks': [], 'loop_counts': []}
             };
         }
     }
@@ -137,7 +143,7 @@ class LogicController {
     }
 
     // helper function of parseVisual, returns the main big blockset
-    buildBlockSets(blocks, snaps){
+    buildBlockSets(blocks, snaps, actual_run){
         // this is a list of blocksets, they act as scopes for blocks
         // when a start loop or if statement is reached, we go into another blockset
         // when it ends, the block set is popped back out of
@@ -154,7 +160,7 @@ class LogicController {
             }
         });
 
-        if (start_block == null && _this.cur_start_name == _this.run_main_code_name){
+        if (start_block == null && _this.cur_start_name == _this.run_main_code_name && actual_run){
             return {'res': false, 'text': "No start block found"};
         }
 
@@ -232,7 +238,7 @@ class LogicController {
     // given a list of visual blocks and their snaps, build out all of the blocksets and logic blocks
     // builds multiple blocksets for each event trigger
     parseVisual(blocks, snaps){
-        let start_names = ['start_virtual', 'back_button'];
+        let start_names = ['start_virtual', 'nose_button', 'back_button', 'ultrasonic_left', 'ultrasonic_right'];
         for (let start_name of start_names){
             this.cur_start_name = start_name;
             let res = this.buildBlockSets(blocks, snaps);
@@ -249,17 +255,23 @@ class LogicController {
         // - each event section is seperated by |
         // - each block has a number that represents it
         // - for a loop start block, the next number after that is its loop count, not the next block!
-        
-        // decompose each of the block sets into the direct blocks
-        this.simplistic_block_sets
 
         // write here what the order being sent is in terms of events
         // - start_virtual
+        // - nose_buttom
         // - back_button
-
+        // - ultrasonic_left
+        // - ultrasonic_right
+    
         let send_str = "<";
 
+        console.log(this.simplistic_block_sets);
+
         for (let key of Object.keys(this.simplistic_block_sets)){
+            console.log(key);
+            if (key == this.run_main_code_name){
+                continue;
+            }
             let blocks = this.simplistic_block_sets[key]['blocks'];
             for (let block of blocks){
                 let str = this.convertBlockToIdStr(block);
@@ -278,19 +290,22 @@ class LogicController {
 
     convertBlockToIdStr(block) {
         let block_names_to_id = [
-            'start_virtual',
-            'start_doll',
-            'stop',
+            'nose_button',
+            'back_button',
+            'ultrasonic_left',
+            'ultrasonic_right',
+            'sit',
+            'stand',
+            'lay_down',
+            'shake',
+            'wag_tail',
             'start_loop',
             'end_loop',
+            'start_virtual', // dont need past here to interpret in arduino
             'move_right',
             'move_up',
             'move_left',
             'move_down',
-            'something_close_right',
-            'something_close_left',
-            'back_button',
-            'face_touch',
         ];
     
         let type = block.block_type.name;

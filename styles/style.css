@@ -495,7 +495,7 @@ body {
 
 .navigation {
     margin: auto;
-    width: 40%;
+    width: 55%;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -517,4 +517,6 @@ body {
 
 #level_text{
     transform: translate(0, 30%);
+    width: 100%;
+    text-align: center;
 }

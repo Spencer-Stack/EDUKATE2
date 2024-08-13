@@ -715,7 +715,7 @@ class VisualController {
     // Initialize tab selection
     initializeTabSelection() {
         // Initial tab selection
-        this.showBlocks('Initialise');
+        this.showBlocks('Events');
         let _this = this;
 
         // Handle tab button click using event delegation
@@ -746,12 +746,12 @@ class VisualController {
         });
     }
 
-    parseCode(){
+    parseCode(actual_run){
         // Call the logic controller's run or setup function
         this.logic_controller.reset();
         this.virtual_controller.reset();
         this.setConsole("");
-        let parse_result = this.logic_controller.parseVisual(this.blocks, this.snapped_connections);
+        let parse_result = this.logic_controller.parseVisual(this.blocks, this.snapped_connections, actual_run);
         return parse_result;
     }
 
@@ -778,7 +778,7 @@ class VisualController {
                 'virtual_controller': this.virtual_controller,
                 'logic_controller': this.logic_controller
             };
-            let parse_result = _this.parseCode();
+            let parse_result = _this.parseCode(true);
             if (parse_result["res"]){
                 _this.logic_controller.execute(controllers);
             } else{
@@ -800,6 +800,13 @@ class VisualController {
             }
             $("#overlay").fadeIn(300);
             _this.account_controller.populateLoadTable();
+        });
+
+        $('#save').on('click', function () {
+            if (_this.continueSequence){
+                return;
+            }
+            $('#saveProgramModal').modal('show'); // Hide the modal after saving
         });
     }
 

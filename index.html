@@ -49,11 +49,10 @@
             <div class="header-sub">
                 <div id="tab-selection" class="tab-selection">
                     <!-- Add your tab buttons here -->
-                    <button class="tab-button">Initialise</button>
+                    <button class="tab-button">Events</button>
                     <button class="tab-button">Movements</button>
                     <button class="tab-button">Control</button>
-                    <button class="tab-button" disabled><i class="fas fa-lock"></i> Virtual</button>
-                    <button class="tab-button" disabled><i class="fas fa-lock"></i> Doll</button>
+                    <button class="tab-button">Virtual</button>
                     <button class="tab-button" disabled><i class="fas fa-lock"></i> Sounds</button>
                 </div>
                 <div id="action-buttons" class="action_buttons">
@@ -61,52 +60,64 @@
                     <button class="action-button" disabled id="stop">Stop</button>
                     <button class="action-button" id="save">Save</button>
                     <button class="action-button" id="load">Load</button>
+                    <button class="action-button" id="upload">Upload</button>
                 </div>
             </div>
             <div id="block-display" class="block-display">
-                <!-- Initialise  -->
-                <div class="block" data-tab="Initialise" data-placed="false" data-block_type="start_virtual">
-                    <img class="block_image" src="block_images/start_virtual.png" alt="Initialise Virtual" draggable="false">
+                <!-- Events  -->
+                <div class="block" data-tab="Events" data-placed="false" data-block_type="nose_button">
+                    <img class="block_image" src="block_images/nose_button.png" draggable="false">
                 </div>
-                <div class="block" data-tab="Initialise" data-placed="false" data-block_type="start_doll">
-                    <img class="block_image" src="block_images/start_doll.png" alt="Initialise Doll" draggable="false">
+                <div class="block" data-tab="Events" data-placed="false" data-block_type="back_button">
+                    <img class="block_image" src="block_images/back_button.png" draggable="false">
                 </div>
-                <div class="block" data-tab="Initialise" data-placed="false" data-block_type="stop">
-                    <img class="block_image" src="block_images/stop.png" alt="End" draggable="false">
+                <div class="block" data-tab="Events" data-placed="false" data-block_type="ultrasonic_left">
+                    <img class="block_image" src="block_images/ultrasonic_left.png" draggable="false">
                 </div>
-                <div class="block" data-tab="Initialise" data-placed="false" data-block_type="start_loop">
-                    <img class="block_image" src="block_images/start_loop.png" alt="End" draggable="false">
-                </div>
-                <div class="block" data-tab="Initialise" data-placed="false" data-block_type="end_loop">
-                    <img class="block_image" src="block_images/end_loop.png" alt="End" draggable="false">
+                <div class="block" data-tab="Events" data-placed="false" data-block_type="ultrasonic_right">
+                    <img class="block_image" src="block_images/ultrasonic_right.png" draggable="false">
                 </div>
 
                 <!-- Movements -->
-                <div class="block" data-tab="Movements"  data-placed="false" data-block_type="move_right">
-                    <img class="block_image" src="block_images/move_right.png" alt="Block 4" draggable="false">
+                <div class="block" data-tab="Movements"  data-placed="false" data-block_type="sit">
+                    <img class="block_image" src="block_images/sit.png" draggable="false">
                 </div>
-                <div class="block" data-tab="Movements"  data-placed="false" data-block_type="move_up">
-                    <img class="block_image" src="block_images/move_up.png" alt="Block 5" draggable="false">
+                <div class="block" data-tab="Movements"  data-placed="false" data-block_type="stand">
+                    <img class="block_image" src="block_images/stand.png" draggable="false">
                 </div>
-                <div class="block" data-tab="Movements"  data-placed="false" data-block_type="move_left">
-                    <img class="block_image" src="block_images/move_left.png" alt="Block 5" draggable="false">
+                <div class="block" data-tab="Movements"  data-placed="false" data-block_type="lay_down">
+                    <img class="block_image" src="block_images/lay_down.png" draggable="false">
                 </div>
-                <div class="block" data-tab="Movements"  data-placed="false" data-block_type="move_down">
-                    <img class="block_image" src="block_images/move_down.png" alt="Block 5" draggable="false">
+                <div class="block" data-tab="Movements"  data-placed="false" data-block_type="shake">
+                    <img class="block_image" src="block_images/shake.png" draggable="false">
+                </div>
+                <div class="block" data-tab="Movements"  data-placed="false" data-block_type="wag_tail">
+                    <img class="block_image" src="block_images/wag_tail.png" draggable="false">
                 </div>
 
                 <!-- Control -->
-                <div class="block" data-tab="Control"  data-placed="false" data-block_type="something_close_right">
-                    <img class="block_image" src="block_images/something_close_right.png" draggable="false">
+                <div class="block" data-tab="Control" data-placed="false" data-block_type="start_loop">
+                    <img class="block_image" src="block_images/start_loop.png" draggable="false">
                 </div>
-                <div class="block" data-tab="Control"  data-placed="false" data-block_type="something_close_left">
-                    <img class="block_image" src="block_images/something_close_left.png" draggable="false">
+                <div class="block" data-tab="Control" data-placed="false" data-block_type="end_loop">
+                    <img class="block_image" src="block_images/end_loop.png" draggable="false">
                 </div>
-                <div class="block" data-tab="Control"  data-placed="false" data-block_type="back_button">
-                    <img class="block_image" src="block_images/back_button.png" draggable="false">
+
+                <!-- Virtual -->
+                <div class="block" data-tab="Virtual" data-placed="false" data-block_type="start_virtual">
+                    <img class="block_image" src="block_images/start_virtual.png" draggable="false">
                 </div>
-                <div class="block" data-tab="Control"  data-placed="false" data-block_type="face_touch">
-                    <img class="block_image" src="block_images/face_touch.png" draggable="false">
+                <div class="block" data-tab="Virtual"  data-placed="false" data-block_type="move_right">
+                    <img class="block_image" src="block_images/move_right.png" draggable="false">
+                </div>
+                <div class="block" data-tab="Virtual"  data-placed="false" data-block_type="move_up">
+                    <img class="block_image" src="block_images/move_up.png" draggable="false">
+                </div>
+                <div class="block" data-tab="Virtual"  data-placed="false" data-block_type="move_left">
+                    <img class="block_image" src="block_images/move_left.png" draggable="false">
+                </div>
+                <div class="block" data-tab="Virtual"  data-placed="false" data-block_type="move_down">
+                    <img class="block_image" src="block_images/move_down.png" draggable="false">
                 </div>
             </div>
         </div>

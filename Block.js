@@ -42,7 +42,7 @@ class Block {
 
         const imageElement = $('<img>')
             .attr('src', this.block_type.img_path)
-            .attr('alt', "Nuh uh")
+            .attr('alt', "Block")
             .attr('draggable', false)
             .addClass('block_image');
 

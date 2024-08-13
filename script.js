@@ -17,8 +17,6 @@ $(document).ready(function () {
                 console.log(err.message);
             }
 
-            console.log('polling for ports!', ports);
-
             if (ports.length !== 0) {
                 for (let port of ports) {
                     if (port.manufacturer === "Arduino (www.arduino.cc)") {
@@ -64,8 +62,8 @@ $(document).ready(function () {
     // Start port listing
     listPorts();
 
-    $('#save').on('click', function () {
-        let parse_result = visualController.parseCode();
+    $('#upload').on('click', function () {
+        let parse_result = visualController.parseCode(false);
         if (parse_result["res"]){
             writeTo();
         } else{
